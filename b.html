@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower:wght@400&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Indie Flower', cursive;
+            background: linear-gradient(135deg, #FFB6C1, #FFC0CB, #FFCCCB);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .card-container {
+            perspective: 2000px;
+            width: 600px;
+            height: 750px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: #fff;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        /* Front Cover Styles */
+        .cover-content {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .heart-emoji {
+            font-size: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .cover-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 67px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        
+
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+            opacity: 0.8;
+        }
+
+        /* Polaroid Styles */
+        .polaroid {
+            background: #fff;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+            position: relative;
+            width: 120%;
+            height: 250px;
+        }
+
+        .polaroid:nth-child(2) {
+            transform: rotate(3deg);
+            margin-top: -10px;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+
+        .photo-frame {
+            width: 100%;
+            height: 150px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            right: 15px;
+            text-align: center;
+            font-size: 25px;
+            color: #2c3e50;
+            font-family: 'Indie Flower', cursive;
+        }
+
+        .upload-area {
+            display: none; /* Hide upload functionality */
+        }
+
+        .photo-frame:hover .upload-area {
+            opacity: 1;
+        }
+
+        .upload-text {
+            color: #666;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Indie Flower', cursive;
+            font-size: 16px;
+            color: #2c3e50;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: #f8f9fa;
+        }
+
+        /* Developer editable placeholders */
+  
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card" id="card">
+            <!-- Front Cover -->
+            <div class="card-face card-front">
+                <div class="cover-content">
+    
+    <div class="heart-emoji">
+        😫😝❤️ 
+    </div>
+    <h1 class="cover-title">HAPPY NINE MONTHS BABY!</h1>
+</div>
+                <div class="click-hint">Use the button below to flip!😏</div>
+            </div>
+
+            <!-- Inside Pages -->
+            <div class="card-face card-back">
+                <!-- First Polaroid -->
+                <div class="polaroid">
+                    <div class="photo-frame" id="photo1">
+                        <img src="pook.jpeg" alt="Pook">
+                    </div>
+                    <div class="photo-caption">MY BABY 🥹</div>
+                </div>
+
+                <!-- Second Polaroid -->
+                <div class="polaroid">
+                    <div class="photo-frame" id="photo2">
+                        <img src="dook.JPEG" alt="Dook">
+                    </div>
+                    <div class="photo-caption">Me 👅</div>
+                </div>
+
+                <div class="card-text-section" style="grid-column: 1 / span 2; margin-top: 30px; background: #fff0f6; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(255,182,193,0.15); text-align: center;">
+    <h2 style="font-family: 'Amatic SC', cursive; color: #e74c3c; font-size: 2.2em; margin-bottom: 10px;">Together Since</h2>
+    <div style="margin-bottom: 16px;">
+        
+    </div>
+    <div id="togetherSinceDisplay" style="font-size: 1.3em; color: #e74c3c; margin-bottom: 10px;"></div>
+    <div id="togetherSinceClock" style="font-size: 1.1em; color: #2c3e50;"></div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="flipCard()">Flip Card</button>
+    </div>
+
+    <script>
+    let isFlipped = false;
+
+    function flipCard() {
+        const card = document.getElementById('card');
+        isFlipped = !isFlipped;
+        card.classList.toggle('flipped', isFlipped);
+    }
+
+    const togetherSince = new Date("2024-11-09T21:00:00");
+    let togetherSinceTimer = null;
+
+    function updateTogetherSinceDisplay() {
+        const now = new Date();
+        let diff = Math.max(0, now - togetherSince);
+
+        const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        diff -= years * (1000 * 60 * 60 * 24 * 365.25);
+        const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+        diff -= months * (1000 * 60 * 60 * 24 * 30.44);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        diff -= days * (1000 * 60 * 60 * 24);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        diff -= hours * (1000 * 60 * 60);
+        const minutes = Math.floor(diff / (1000 * 60));
+        diff -= minutes * (1000 * 60);
+        const seconds = Math.floor(diff / 1000);
+
+        document.getElementById('togetherSinceDisplay').textContent =
+            `Since: November 9, 2023`;
+        document.getElementById('togetherSinceClock').textContent =
+            `${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        updateTogetherSinceDisplay();
+        togetherSinceTimer = setInterval(updateTogetherSinceDisplay, 1000);
+    });
+
+
+    // Randomized heart emojis for the front cover
+    const heartEmojis = [
+        "❤️", "💖", "💘", "💝", "💗", "💓", "💞", "💕", "🩷", "🫶", "💟", "💌", "😻", "😍"
+    ];
+    function getRandomHearts(count = 3) {
+        let result = [];
+        for (let i = 0; i < count; i++) {
+            const idx = Math.floor(Math.random() * heartEmojis.length);
+            result.push(heartEmojis[idx]);
+        }
+        return result.join(' ');
+    }
+    // Only set text if the element exists
+    const randomHeartsEl = document.getElementById('random-hearts');
+    if (randomHeartsEl) {
+        randomHeartsEl.textContent = getRandomHearts();
+    }
+
+    // Removed auto-flip functionality - only button controls flip now
+
+    // Add some floating hearts animation
+    function createHeart() {
+        const heart = document.createElement('div');
+        // Use a random heart emoji for floating hearts too
+        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        heart.style.position = 'fixed';
+        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.top = window.innerHeight + 'px';
+        heart.style.zIndex = '-1';
+        heart.style.pointerEvents = 'none';
+        heart.style.animation = 'floatUp 6s linear infinite';
+        
+        document.body.appendChild(heart);
+        
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    // Add floating hearts periodically
+    setInterval(createHeart, 3000);
+
+    // Add CSS animation for floating hearts
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
